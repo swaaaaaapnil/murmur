@@ -18,7 +18,7 @@
   --display:"Space Grotesk",-apple-system,"SF Pro Display",system-ui,sans-serif;
   --body:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,"Segoe UI",system-ui,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  --mac-win:#1e1f1e;--mac-side:#252625;--mac-row:#2e2f2e;--mac-edge:#3a3b3a;--mac-ink:#ececec;--mac-dim:#9a9a9a;--mac-blue:#2a64d6;
+  --mac-win:#1e1f1e;--mac-side:#252625;--mac-row:#2e2f2e;--mac-edge:#3a3b3a;--mac-ink:#ececec;--mac-dim:#9a9a9a;--mac-blue:#2a64d6;--w-bg:#202020;--w-card:#2b2b2b;--w-edge:#3b3b3b;--w-ink:#f3f3f3;--w-dim:#a8a8a8;--w-acc:#4cc2ff;--w-btn:#0067c0;--w-ss:#0a5fb4;
   --r:18px;--gutter:max(24px,env(safe-area-inset-left,0px));
   color-scheme:dark
 }
@@ -276,6 +276,72 @@ h2{font-weight:700;font-size:clamp(32px,4.8vw,52px);line-height:1.02;letter-spac
 .kb .ss-row{background:var(--mac-row);border-radius:9px}
 .pop{display:inline-flex;align-items:center;gap:6px;background:var(--mac-edge);border-radius:6px;padding:3px 8px;white-space:nowrap}
 .pop:after{content:"⌃⌄";font-size:9px;color:var(--mac-dim);letter-spacing:-1px}
+
+[hidden]{display:none!important}
+/* guide tabs */
+.ostabs{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:-20px 0 22px}
+.ostabs [role=tab]{font:600 15px/1 var(--body,inherit);display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer}
+.ostabs [role=tab] svg{width:16px;height:16px}
+.ostabs [role=tab][aria-selected=true]{background:var(--grad);color:var(--on-accent);border-color:transparent}
+.ostabs [role=tab]:focus-visible,.gclose:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.gclose{margin-left:auto;background:none;border:0;color:var(--muted);font:500 14px/1 inherit;cursor:pointer;padding:10px 4px}
+.gclose:hover{color:var(--ink)}
+/* windows pieces */
+.ww{width:100%;max-width:400px;background:var(--w-bg);border:1px solid var(--w-edge);border-radius:8px;box-shadow:0 18px 50px rgba(0,0,0,.5);font:13px/1.4 "Segoe UI Variable","Segoe UI",system-ui,sans-serif;color:var(--w-ink);overflow:hidden}
+.ww-bar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;font-size:12px;color:var(--w-dim);border-bottom:1px solid var(--w-edge)}
+.ww-bar:after{content:"—   ▢   ✕";letter-spacing:.05em;font-size:11px}
+.wbtn{display:inline-block;border-radius:4px;padding:6px 14px;font-weight:600;font-size:12.5px;background:var(--w-card);border:1px solid var(--w-edge);color:var(--w-ink);white-space:nowrap}
+.wbtn.blue{background:var(--w-btn);border-color:var(--w-btn);color:#fff}
+.wbtn.no{opacity:.45;text-decoration:line-through;text-decoration-color:var(--orange)}
+.exe{width:34px;height:40px;border-radius:3px;background:linear-gradient(#e8e8e8,#bdbdbd);position:relative;flex:none}
+.exe:after{content:"EXE";position:absolute;inset:auto 0 5px;text-align:center;font:700 8px/1 system-ui;color:#0067c0}
+.dlrow{display:flex;align-items:center;gap:12px;padding:14px}
+.dlrow div{flex:1;min-width:0}
+.dlrow small{display:block;color:var(--w-dim);font-size:11.5px}
+.warnrow{display:flex;gap:10px;padding:14px;align-items:flex-start}
+.warnrow .w{color:#fce100;font-size:16px;line-height:1}
+.warnrow p{margin:0;font-size:12px;color:var(--w-dim)}
+.warnrow b{color:var(--w-ink)}
+.wmenu{margin:0 14px 14px auto;width:150px;background:var(--w-card);border:1px solid var(--w-edge);border-radius:8px;padding:4px;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.wmenu span{display:block;padding:6px 10px;border-radius:4px;font-size:12.5px}
+.wmenu span.dim{color:var(--w-dim)}
+.ssd{width:100%;max-width:330px;background:var(--w-ss);color:#fff;border-radius:4px;padding:18px 18px 14px;font:13px/1.45 "Segoe UI",system-ui,sans-serif;box-shadow:0 18px 50px rgba(0,0,0,.5);display:flex;flex-direction:column;min-height:230px}
+.ssd h4{margin:0 0 10px;font-size:19px;font-weight:300}
+.ssd p{margin:0 0 10px;font-size:12px;opacity:.92}
+.ssd .lnk{text-decoration:underline;font-size:12px;align-self:flex-start;padding:1px 3px}
+.ssd .meta{font-size:12px;margin:0 0 6px}
+.ssd .meta b{display:inline-block;width:70px;font-weight:400;opacity:.8}
+.ssd .row{margin-top:auto;display:flex;justify-content:flex-end;gap:8px;padding-top:12px}
+.ssd .wbtn{background:#1a73c9;border-color:rgba(255,255,255,.5);color:#fff;font-weight:400}
+.ssd .wbtn.no{opacity:.5}
+.sspair{display:flex;align-items:center;gap:18px;width:100%;max-width:760px;justify-content:center}
+.sspair .to{color:var(--accent);font:600 22px/1 var(--mono);flex:none}
+.toast{width:100%;max-width:340px;background:var(--w-card);border:1px solid var(--w-edge);border-radius:8px;padding:12px 14px;font:13px/1.4 "Segoe UI",system-ui,sans-serif;color:var(--w-ink);box-shadow:0 18px 50px rgba(0,0,0,.5);display:flex;gap:12px}
+.toast .appico{width:38px;height:38px;border-radius:9px;gap:2px;flex:none}
+.toast .appico i{width:3px}
+.toast small{display:block;color:var(--w-dim);font-size:11px;margin-bottom:2px}
+.toast p{margin:2px 0 0;color:var(--w-dim);font-size:12px}
+.taskbar{width:100%;max-width:340px;margin-top:14px;background:#1c1c1c;border:1px solid var(--w-edge);border-radius:8px;padding:7px 12px;display:flex;align-items:center;justify-content:flex-end;gap:12px;font:12px/1 "Segoe UI",system-ui,sans-serif;color:var(--w-dim)}
+.trayic{width:20px;height:20px;border-radius:5px;background:#000;display:flex;align-items:center;justify-content:center;gap:1.5px}
+.trayic i{width:2px;border-radius:1px;background:var(--grad-v)}
+.gstack{display:flex;flex-direction:column;align-items:center;width:100%}
+.ctx{width:100%;max-width:280px;background:var(--w-card);border:1px solid var(--w-edge);border-radius:8px;padding:4px;font:12.5px/1.3 "Segoe UI",system-ui,sans-serif;color:var(--w-ink);box-shadow:0 18px 50px rgba(0,0,0,.5)}
+.ctx span{display:flex;justify-content:space-between;align-items:center;padding:6px 10px 6px 28px;border-radius:4px;position:relative}
+.ctx span.on:before{content:"✓";position:absolute;left:10px}
+.ctx span.dim{color:var(--w-dim)}
+.ctx hr{border:0;border-top:1px solid var(--w-edge);margin:4px 0}
+.wset{display:grid;grid-template-columns:150px 1fr;max-width:520px}
+.wset-side{background:#1c1c1c;padding:12px 6px;display:flex;flex-direction:column;gap:2px;border-right:1px solid var(--w-edge)}
+.wset-side span{padding:6px 10px;border-radius:4px;font-size:12px;white-space:nowrap;position:relative}
+.wset-side span.sel{background:var(--w-card)}
+.wset-side span.sel:before{content:"";position:absolute;left:0;top:7px;bottom:7px;width:3px;border-radius:2px;background:var(--w-acc)}
+.wset-main{padding:12px 14px;min-width:0}
+.wset-main .crumb{font-size:15px;font-weight:600;margin-bottom:10px}
+.wset-main .crumb em{font-style:normal;color:var(--w-dim);font-weight:400}
+.wrow{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--w-card);border-radius:5px;padding:9px 12px;font-size:12px;margin-bottom:3px}
+.tg{display:inline-flex;align-items:center;gap:8px;color:var(--w-dim);flex:none}
+.tg:after{content:"";width:34px;height:17px;border-radius:9px;background:radial-gradient(circle at 25px 8.5px,#000 4.5px,transparent 5px),var(--w-acc)}
+@media(max-width:768px){.sspair{flex-direction:column;gap:10px}.sspair .to{transform:rotate(90deg)}.wset{grid-template-columns:1fr}.wset-side{border-right:0;border-bottom:1px solid var(--w-edge)}.wset-side .far{display:none}}
 @media(max-width:768px){.guide{grid-template-columns:1fr}.ss{grid-template-columns:1fr}.ss-side{border-right:0;border-bottom:1px solid var(--mac-edge)}.ss-item.far,.ss-search{display:none}}
 @media(max-width:480px){.gshot{padding:22px 12px;min-height:0}.dmg{padding:24px 8px}}
 
@@ -475,26 +541,31 @@ Second point.</span><span class="chips"><span class="chip on">MAC</span><span cl
         <article class="plat" data-plat="mac">
           <div class="plat-top"><h3>Murmur for Mac</h3><span class="yours-tag">Yours</span></div>
           <dl><dt>FILE</dt><dd>Murmur.dmg · 3 MB</dd><dt>NEEDS</dt><dd>macOS 14 or later, Apple silicon</dd><dt>KEY</dt><dd>fn, or choose your own</dd></dl>
-          <p class="first">First open: drag Murmur into Applications and open it. If macOS says it can’t verify the app, click Done, then go to System Settings → Privacy &amp; Security and click <b>Open Anyway</b>. <a href="#install" style="color:var(--accent)">See every step with pictures ↓</a></p>
+          <p class="first">First open: drag Murmur into Applications and open it. If macOS says it can’t verify the app, click Done, then go to System Settings → Privacy &amp; Security and click <b>Open Anyway</b>. <a href="#install" data-guide="mac" style="color:var(--accent)">See every step with pictures ↓</a></p>
           <a class="btn primary" aria-label="Download for Mac" href="https://github.com/swaaaaaapnil/murmur/releases/latest/download/Murmur.dmg"><svg class="os-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>Download</a>
         </article>
         <article class="plat" data-plat="win">
           <div class="plat-top"><h3>Murmur for Windows</h3><span class="yours-tag">Yours</span></div>
           <dl><dt>FILE</dt><dd>Murmur-Setup.exe · 70 MB</dd><dt>NEEDS</dt><dd>Windows 10 or 11, 64-bit. No admin rights.</dd><dt>KEY</dt><dd>Right Alt, Right Ctrl or F8</dd></dl>
-          <p class="first">First open: if SmartScreen warns you, click More info → Run anyway. Murmur installs itself and then downloads its 190 MB speech model once.</p>
+          <p class="first">First open: if SmartScreen warns you, click More info → Run anyway. Murmur installs itself and then downloads its 190 MB speech model once. <a href="#install" data-guide="win" style="color:var(--accent)">See every step with pictures ↓</a></p>
           <a class="btn primary" aria-label="Download for Windows" href="https://github.com/swaaaaaapnil/murmur/releases/latest/download/Murmur-Setup.exe"><svg class="os-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M0 3.449 9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>Download</a>
         </article>
       </div>
     </div>
   </section>
 
-  <section id="install" aria-labelledby="install-title">
+  <section id="install" aria-labelledby="install-title" hidden>
     <div class="head">
-      <span class="label">05 · Install on Mac</span>
+      <span class="label">Install guide</span>
       <h2 id="install-title">Set up in six steps.</h2>
-      <p class="lead">Murmur isn’t from the App Store yet, so macOS asks you to approve it once. Here is exactly what you’ll see and where to click.</p>
+      <p class="lead">Murmur isn’t code-signed yet, so your computer asks you to approve it once. Here is exactly what you’ll see and where to click.</p>
     </div>
-    <div class="guide">
+    <div class="ostabs" role="tablist" aria-label="Choose your computer">
+      <button role="tab" id="tab-mac" aria-controls="guide-mac" aria-selected="true" data-g="mac"><svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>Mac</button>
+      <button role="tab" id="tab-win" aria-controls="guide-win" aria-selected="false" tabindex="-1" data-g="win"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M0 3.449 9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>Windows</button>
+      <button class="gclose" type="button">Hide guide ✕</button>
+    </div>
+    <div class="guide" id="guide-mac" role="tabpanel" aria-labelledby="tab-mac">
       <article class="gstep">
         <div class="gshot" aria-hidden="true">
           <div class="mw"><div class="mw-bar"><i></i><i></i><i></i><span>Murmur</span></div>
@@ -570,10 +641,79 @@ Second point.</span><span class="chips"><span class="chip on">MAC</span><span cl
 
       <p class="gtip"><b>Don’t see Open Anyway?</b> It only shows for about an hour after macOS blocks the app. Double-click Murmur again, click Done, and go back to Privacy &amp; Security.</p>
     </div>
+    <div class="guide" id="guide-win" role="tabpanel" aria-labelledby="tab-win" hidden>
+      <article class="gstep">
+        <div class="gshot" aria-hidden="true">
+          <div class="ww"><div class="ww-bar">Downloads</div>
+            <div class="dlrow"><span class="exe"></span><div>Murmur-Setup.exe<small>70 MB · Done</small></div><span class="wbtn blue hot">Open file</span></div>
+          </div>
+        </div>
+        <div class="gcap"><span class="n">1</span><h3>Open Murmur-Setup.exe</h3><p>When the download finishes, click <b>Open file</b> in your browser, or double-click <b>Murmur-Setup.exe</b> in your <b>Downloads</b> folder.</p></div>
+      </article>
+
+      <article class="gstep">
+        <div class="gshot" aria-hidden="true">
+          <div class="ww"><div class="ww-bar">Downloads</div>
+            <div class="warnrow"><span class="w">⚠</span><p><b>Murmur-Setup.exe isn’t commonly downloaded.</b> Make sure you trust it before you open it.</p><span class="wbtn" style="padding:4px 9px">•••</span></div>
+            <div class="wmenu"><span class="dim">Delete</span><span class="hot">Keep</span><span class="dim">Report this file as safe</span></div>
+          </div>
+        </div>
+        <div class="gcap"><span class="n">2</span><h3>Browser held the file? Keep it</h3><p>Only if you see this. In <b>Edge</b>, click <b>•••</b> → <b>Keep</b>, then <b>Show more</b> → <b>Keep anyway</b>. In <b>Chrome</b>, click <b>Keep</b>. Then open the file.</p></div>
+      </article>
+
+      <article class="gstep wide">
+        <div class="gshot" aria-hidden="true">
+          <div class="sspair">
+            <div class="ssd"><h4>Windows protected your PC</h4><p>Microsoft Defender SmartScreen prevented an unrecognized app from starting. Running this app might put your PC at risk.</p><span class="lnk hot below">More info</span><div class="row"><span class="wbtn no">Don’t run</span></div></div>
+            <span class="to">→</span>
+            <div class="ssd"><h4>Windows protected your PC</h4><p>Microsoft Defender SmartScreen prevented an unrecognized app from starting.</p><p class="meta"><b>App:</b>Murmur-Setup.exe</p><p class="meta"><b>Publisher:</b>Unknown publisher</p><div class="row"><span class="wbtn hot">Run anyway</span><span class="wbtn no">Don’t run</span></div></div>
+          </div>
+        </div>
+        <div class="gcap"><span class="n">3</span><h3>SmartScreen → More info → Run anyway</h3><p>Windows shows a blue <b>“Windows protected your PC”</b> box because Murmur isn’t code-signed yet. There is no Run button at first: click the small <b>More info</b> link, then <b>Run anyway</b>. You only do this once.</p></div>
+      </article>
+
+      <article class="gstep">
+        <div class="gshot" aria-hidden="true">
+          <div class="gstack">
+            <div class="toast"><div class="appico" aria-hidden="true"><i style="height:9px"></i><i style="height:18px"></i><i style="height:26px"></i><i style="height:15px"></i><i style="height:21px"></i><i style="height:11px"></i></div><div><small>Murmur</small><b>Murmur is installed</b><p>Getting the speech model ready (about 190 MB, one time only).</p></div></div>
+            <div class="taskbar"><span>^</span><span class="hot" style="border-radius:5px"><div class="trayic"><i style="height:5px"></i><i style="height:10px"></i><i style="height:14px"></i><i style="height:8px"></i><i style="height:11px"></i></div></span><span>ENG</span><span>10:42</span></div>
+          </div>
+        </div>
+        <div class="gcap"><span class="n">4</span><h3>Wait for “Murmur is ready”</h3><p>There’s no setup wizard. Murmur installs for your user (no admin needed) and moves to the <b>tray</b> by the clock. It downloads its speech model once; stay online until you see <b>Murmur is ready</b>.</p></div>
+      </article>
+
+      <article class="gstep">
+        <div class="gshot" aria-hidden="true">
+          <div class="ctx">
+            <span class="dim">Ready. Hold Right Alt to talk</span><hr>
+            <span class="hot">Push-to-talk key<em style="font-style:normal">›</em></span>
+            <span class="on">Remove filler words</span><span class="on">Show idle line</span><span class="on">Start with Windows</span><hr>
+            <span>Open data folder</span><span>Uninstall Murmur…</span><hr><span>Quit Murmur</span>
+          </div>
+        </div>
+        <div class="gcap"><span class="n">5</span><h3>Hold Right Alt and talk</h3><p>Click where you want to type, hold <kbd>Right Alt</kbd>, speak, let go. To change the key, <b>right-click the tray icon</b> → <b>Push-to-talk key</b> (Right Alt, Right Ctrl or F8). Icon hidden? Click <b>^</b> next to the clock.</p></div>
+      </article>
+
+      <article class="gstep">
+        <div class="gshot" aria-hidden="true">
+          <div class="ww wset">
+            <div class="wset-side"><span class="far">System</span><span class="far">Apps</span><span class="far">Accounts</span><span class="sel">Privacy &amp; security</span><span class="far">Windows Update</span></div>
+            <div class="wset-main"><div class="crumb"><em>Privacy &amp; security ›</em> Microphone</div>
+              <div class="wrow">Microphone access<span class="tg">On</span></div>
+              <div class="wrow">Let apps access your microphone<span class="tg">On</span></div>
+              <div class="wrow hot" style="margin-top:24px">Let desktop apps access your microphone<span class="tg">On</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="gcap"><span class="n">6</span><h3>“Can’t use the microphone”?</h3><p>Only if Murmur says so. Open <b>Start → Settings → Privacy &amp; security → Microphone</b> and turn on <b>Microphone access</b> and <b>Let desktop apps access your microphone</b>.</p></div>
+      </article>
+
+      <p class="gtip"><b>Want it gone?</b> Right-click the tray icon → <b>Uninstall Murmur…</b>, or use Settings → Apps → Installed apps. It removes the speech model too.</p>
+    </div>
   </section>
 
   <section class="faq" id="faq" aria-labelledby="faq-title">
-    <div class="head"><span class="label">06 · FAQ</span><h2 id="faq-title">Questions</h2><p class="lead">Short answers to what people ask before they install.</p></div>
+    <div class="head"><span class="label">05 · FAQ</span><h2 id="faq-title">Questions</h2><p class="lead">Short answers to what people ask before they install.</p></div>
     <div class="faq-list">
     <details><summary>Is it really free?</summary><p>Yes. There's no subscription, no trial and no account. Download it and use it.</p></details>
     <details><summary>Does it send my voice anywhere?</summary><p>No. Speech recognition happens on your computer. Murmur has no servers and doesn't collect anything.</p></details>
@@ -603,6 +743,24 @@ Second point.</span><span class="chips"><span class="chip on">MAC</span><span cl
   }
   if (isWin || isMac) document.querySelector(`[data-plat="${isWin ? 'win' : 'mac'}"]`).classList.add('yours');
 
+  // Install guide: hidden until a "steps" link opens it, with a Mac / Windows switch.
+  const guide = document.getElementById('install');
+  const tabs = [...guide.querySelectorAll('[role=tab]')];
+  const pick = os => tabs.forEach(t => { const on = t.dataset.g === os; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; document.getElementById(t.getAttribute('aria-controls')).hidden = !on; });
+  function openGuide(os) { guide.hidden = false; pick(os); }
+  tabs.forEach(t => t.addEventListener('click', () => pick(t.dataset.g)));
+  guide.querySelector('[role=tablist]').addEventListener('keydown', e => {
+    const i = tabs.findIndex(t => t.getAttribute('aria-selected') === 'true');
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length]; pick(n.dataset.g); n.focus();
+  });
+  guide.querySelector('.gclose').addEventListener('click', () => {
+    guide.hidden = true; const dl = document.getElementById('download');
+    scrollTo({ top: dl.getBoundingClientRect().top + scrollY - 84 });
+    try { history.replaceState(null, '', location.pathname); } catch {}
+  });
+  if (location.hash === '#install') { openGuide(isWin ? 'win' : 'mac'); requestAnimationFrame(() => scrollTo({ top: guide.getBoundingClientRect().top + scrollY - 84 })); }
+
   const header = document.querySelector('header');
   const onScroll = () => header.classList.toggle('scrolled', scrollY > 8);
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
@@ -618,6 +776,7 @@ Second point.</span><span class="chips"><span class="chip on">MAC</span><span cl
     const a = e.target.closest('a[href^="#"]');
     if (!a) return;
     const id = a.getAttribute('href').slice(1);
+    if (id === 'install') openGuide(a.dataset.guide || (isWin ? 'win' : 'mac'));
     const el = id === 'top' || !id ? document.body : document.getElementById(id);
     if (!el) return;
     e.preventDefault(); setMenu(false);
