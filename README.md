@@ -7,7 +7,7 @@
 Hold a key, speak, let go. Clean, punctuated text lands wherever your cursor is.<br>
 No account, no cloud, and no internet needed.
 
-[**Download for Mac & Windows**](https://github.com/swaaaaaapnil/murmur/releases/latest) · [All releases](https://github.com/swaaaaaapnil/murmur/releases)
+### [**→ Download at murmur-talk.vercel.app**](https://murmur-talk.vercel.app)
 
 ![macOS 14+](https://img.shields.io/badge/macOS-14%2B%20·%20Apple%20silicon-0f7a40?logo=apple&logoColor=white)
 ![Windows 10/11](https://img.shields.io/badge/Windows-10%20%2F%2011%20·%2064--bit-0f7a40?logo=windows&logoColor=white)
@@ -63,6 +63,8 @@ The only download the app ever makes is the speech model, once. On Windows that 
 
 ## Install
 
+Download from **[murmur-talk.vercel.app](https://murmur-talk.vercel.app)**. It picks the right version for your computer.
+
 **Mac** — macOS 14 or later, Apple silicon. Drag Murmur into Applications, then right-click it and choose **Open** the first time. Allow Microphone and Accessibility when asked.
 
 **Windows** — Windows 10 or 11, 64-bit, no admin rights needed. If SmartScreen warns you, click **More info → Run anyway**. Murmur installs itself for your user and lives in the tray.
@@ -84,7 +86,7 @@ The only download the app ever makes is the speech model, once. On Windows that 
 
 ## About this repository
 
-This repo holds the Murmur **landing page**. The apps themselves are distributed through [Releases](https://github.com/swaaaaaapnil/murmur/releases).
+This repo holds the source of the Murmur website, [murmur-talk.vercel.app](https://murmur-talk.vercel.app). Get the app from the website.
 
 ```
 .
@@ -99,7 +101,7 @@ This repo holds the Murmur **landing page**. The apps themselves are distributed
 python3 -m http.server 4173
 ```
 
-**Deploy** — hosted on Vercel from `main`; every push redeploys.
+**Deploy** — hosted on Vercel at [murmur-talk.vercel.app](https://murmur-talk.vercel.app).
 
 ---
 
