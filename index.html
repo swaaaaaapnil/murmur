@@ -186,13 +186,23 @@ h2{font-weight:700;font-size:clamp(32px,4.8vw,52px);line-height:1.02;letter-spac
 .plat .btn{margin-top:auto;width:100%}
 
 /* faq */
-.faq{max-width:760px}
+.faq{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);gap:24px 72px;align-items:start}
+.faq .head{display:flex;flex-direction:column;gap:16px;margin:0;position:sticky;top:104px}
+.faq .head .lead{font-size:17px}
+.faq-list{border-top:1px solid var(--line)}
 .faq details{border-bottom:1px solid var(--line)}
-.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;padding:20px 0;font-weight:600;font-size:18px}
+.faq summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:22px 4px;font-weight:600;font-size:18px;line-height:1.35;border-radius:10px;transition:color .2s}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary:after{content:"+";font:500 20px/1 var(--mono);color:var(--accent);transition:transform .2s}
-.faq details[open] summary:after{transform:rotate(45deg)}
-.faq p{color:var(--muted);margin:0 0 20px;max-width:640px}
+.faq summary:hover{color:var(--accent)}
+.faq summary:after{content:"";flex:none;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:linear-gradient(var(--accent),var(--accent)) center/12px 2px no-repeat,linear-gradient(var(--accent),var(--accent)) center/2px 12px no-repeat;transition:transform .25s ease,border-color .2s,background-color .2s}
+.faq summary:hover:after{border-color:#34463c;background-color:var(--card)}
+.faq details[open] summary:after{transform:rotate(45deg);border-color:rgba(61,255,143,.35);background-color:rgba(61,255,143,.08)}
+.faq p{color:var(--muted);margin:0;padding:0 58px 24px 4px;max-width:640px;line-height:1.6}
+.faq details[open] p{animation:faqIn .25s ease}
+@keyframes faqIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.faq details[open] p{animation:none}.faq summary:after{transition:none}}
+@media(max-width:900px){.faq{grid-template-columns:1fr;gap:36px}.faq .head{position:static}}
+@media(max-width:480px){.faq summary{font-size:17px;padding:18px 2px;gap:16px}.faq summary:after{width:28px;height:28px}.faq p{padding:0 44px 20px 2px}}
 
 footer{margin-top:104px;border-top:1px solid var(--line);padding-block:28px calc(48px + env(safe-area-inset-bottom,0px));color:var(--muted);font-size:14px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
 footer .made a{color:var(--ink);font-weight:600}
@@ -390,7 +400,7 @@ Second point.</span><span class="chips"><span class="chip on">MAC</span><span cl
         <article class="plat" data-plat="mac">
           <div class="plat-top"><h3>Murmur for Mac</h3><span class="yours-tag">Yours</span></div>
           <dl><dt>FILE</dt><dd>Murmur.dmg · 3 MB</dd><dt>NEEDS</dt><dd>macOS 14 or later, Apple silicon</dd><dt>KEY</dt><dd>fn, or choose your own</dd></dl>
-          <p class="first">First open: drag Murmur into Applications, right-click it and choose Open. Then allow Microphone and Accessibility when asked.</p>
+          <p class="first">First open: drag Murmur into Applications and open it. If macOS says it can’t verify the app, click Done, then go to System Settings → Privacy &amp; Security and click <b>Open Anyway</b>. Then allow Microphone and Accessibility.</p>
           <a class="btn primary" aria-label="Download for Mac" href="https://github.com/swaaaaaapnil/murmur/releases/latest/download/Murmur.dmg"><svg class="os-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>Download</a>
         </article>
         <article class="plat" data-plat="win">
@@ -404,14 +414,16 @@ Second point.</span><span class="chips"><span class="chip on">MAC</span><span cl
   </section>
 
   <section class="faq" id="faq" aria-labelledby="faq-title">
-    <div class="head" style="grid-template-columns:1fr"><span class="label">05 · FAQ</span><h2 id="faq-title">Questions</h2></div>
+    <div class="head"><span class="label">05 · FAQ</span><h2 id="faq-title">Questions</h2><p class="lead">Short answers to what people ask before they install.</p></div>
+    <div class="faq-list">
     <details><summary>Is it really free?</summary><p>Yes. There's no subscription, no trial and no account. Download it and use it.</p></details>
     <details><summary>Does it send my voice anywhere?</summary><p>No. Speech recognition happens on your computer. Murmur has no servers and doesn't collect anything.</p></details>
     <details><summary>Does it need the internet?</summary><p>Only once, on Windows, to download the speech model (about 190 MB) the first time you open it. After that, both versions work fully offline.</p></details>
     <details><summary>Windows says “Windows protected your PC”. What do I do?</summary><p>Murmur isn't code-signed yet, so SmartScreen warns about it. Click More info, then Run anyway.</p></details>
-    <details><summary>macOS says it can't verify the app. What do I do?</summary><p>Drag Murmur to Applications, then right-click it and choose Open the first time. After that it opens normally.</p></details>
+    <details><summary>macOS says it can't verify the app. What do I do?</summary><p>Murmur isn’t notarized by Apple yet, so macOS shows that warning. Click Done, open System Settings → Privacy &amp; Security, scroll down and click <b>Open Anyway</b> next to Murmur, then confirm. You only do this once.</p></details>
     <details><summary>How do I change the key?</summary><p>On the Mac, open Settings from the menu bar icon. If you use fn, set System Settings → Keyboard → “Press 🌐 key to” → Do Nothing. On Windows, right-click the tray icon and choose Push-to-talk key.</p></details>
     <details><summary>How do I uninstall it on Windows?</summary><p>Right-click the tray icon and choose Uninstall Murmur, or remove it from Settings → Apps → Installed apps. It also deletes the speech model.</p></details>
+    </div>
   </section>
 </div>
 </main>

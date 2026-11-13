@@ -65,7 +65,7 @@ The only download the app ever makes is the speech model, once. On Windows that 
 
 Download from **[murmur-talk.vercel.app](https://murmur-talk.vercel.app)**. It picks the right version for your computer.
 
-**Mac** — macOS 14 or later, Apple silicon. Drag Murmur into Applications, then right-click it and choose **Open** the first time. Allow Microphone and Accessibility when asked.
+**Mac** — macOS 14 or later, Apple silicon. Drag Murmur into Applications and open it. If macOS says it can’t verify the app, click Done, then go to **System Settings → Privacy & Security** and click **Open Anyway**. Allow Microphone and Accessibility when asked.
 
 **Windows** — Windows 10 or 11, 64-bit, no admin rights needed. If SmartScreen warns you, click **More info → Run anyway**. Murmur installs itself for your user and lives in the tray.
 
@@ -74,7 +74,7 @@ Download from **[murmur-talk.vercel.app](https://murmur-talk.vercel.app)**. It p
 
 **Is it really free?** Yes. No subscription, no trial, no account.
 
-**Why does my OS warn me?** Murmur isn't code-signed yet. On Mac, right-click → Open the first time. On Windows, More info → Run anyway.
+**Why does my OS warn me?** Murmur isn't code-signed yet. On Mac, open it once, then System Settings → Privacy & Security → **Open Anyway**. On Windows, More info → Run anyway.
 
 **How do I change the key?** On Mac, open Settings from the menu bar icon (if you use `fn`, set System Settings → Keyboard → "Press 🌐 key to" → Do Nothing). On Windows, right-click the tray icon → Push-to-talk key (Right Alt, Right Ctrl or F8).
 
