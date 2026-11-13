@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Murmur — Talk instead of type</title>
+<meta name="description" content="Murmur is a free, private dictation app for Mac and Windows. Hold a key, speak, and clean text appears wherever your cursor is. Works fully offline.">
+<meta name="theme-color" content="#070a08">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root{
+  --paper:#070a08;--card:#0b0f0d;--raise:#111815;--ink:#e9f1ec;--muted:#8fa398;--line:#1f2a24;
+  --accent:#3dff8f;--accent2:#0f7a40;--grad:linear-gradient(90deg,var(--accent),var(--accent2));
+  --grad-v:linear-gradient(180deg,var(--accent),var(--accent2));
+  --on-accent:#02150a;--orange:#ffb347;
+  --display:"Space Grotesk",-apple-system,"SF Pro Display",system-ui,sans-serif;
+  --body:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,"Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r:18px;--gutter:max(24px,env(safe-area-inset-left,0px));
+  color-scheme:dark
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(1100px 520px at 70% -160px,rgba(61,255,143,.12),transparent 70%) no-repeat,var(--paper);color:var(--ink);font:17px/1.55 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--accent);text-underline-offset:3px}
+::selection{background:rgba(61,255,143,.28)}
+.wrap{max-width:1040px;margin:0 auto;padding-left:var(--gutter);padding-right:max(24px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.label{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+kbd{font:500 13px/1 var(--mono);color:var(--ink);background:var(--raise);border:1px solid var(--line);border-bottom-width:3px;border-radius:7px;padding:4px 8px;white-space:nowrap}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:0 24px;border-radius:999px;font:600 16px/1 var(--body);text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .15s ease,background-color .15s,border-color .15s,opacity .15s}
+.btn:active{transform:scale(.98)}
+.btn svg{width:18px;height:18px;flex:none}
+.btn.primary{background:var(--grad);border:0;color:var(--on-accent)}
+.btn.primary:hover{opacity:.88}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{border-color:#34463c;background:var(--card)}
+.btn.dark{background:var(--paper);color:var(--ink)}
+.btn.dark:hover{background:#000}
+.btn.sm{min-height:38px;padding:0 16px;font-size:14px}
+
+/* nav */
+header{position:sticky;top:0;z-index:20;background:rgba(7,10,8,.78);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid transparent;transition:border-color .2s}
+header.scrolled{border-bottom-color:var(--line)}
+nav{display:flex;align-items:center;gap:28px;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font:600 20px var(--display);letter-spacing:-.01em;text-decoration:none;color:var(--ink);margin-right:auto}
+.mark{width:32px;height:22px;border-radius:999px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;gap:2px}
+.mark i{width:2.5px;border-radius:2px;background:var(--grad-v)}
+.navlinks{display:flex;gap:24px}
+.navlinks a{color:var(--muted);text-decoration:none;font-size:15px}
+.navlinks a:hover,.navlinks a.active{color:var(--ink)}
+.navlinks a.active{text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:8px}
+[id]{scroll-margin-top:84px}
+[tabindex="-1"]:focus{outline:none}
+.menu-btn{display:none;width:42px;height:38px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;align-items:center;justify-content:center}
+.menu-btn svg{width:18px;height:18px}
+.nav-dl{display:none}
+nav{min-width:0}
+.logo{min-width:0}
+.menu-btn[aria-expanded="true"]{background:var(--raise)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:24px 56px;align-items:end;padding:72px 0 44px}
+.hero .label{grid-column:1/-1;display:flex;align-items:center;gap:10px}
+.hero .label:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(61,255,143,.15)}
+h1{font-weight:700;font-size:clamp(58px,9.6vw,118px);line-height:.92;letter-spacing:-.05em}
+h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.04em}
+.hero-side{display:flex;flex-direction:column;gap:22px;padding-bottom:8px;min-width:0;container-type:inline-size}
+.sub{margin:0;color:var(--muted);font-size:19px;max-width:440px}
+.sub b{color:var(--ink);font-weight:600}
+.cta{display:flex;gap:10px}
+.cta .btn{flex:1 0 auto;padding:0 18px;gap:9px;white-space:nowrap}
+@container (max-width:456px){.cta .long{display:none}}
+.btn .os-ico{width:19px;height:19px;margin-top:-2px}
+.meta{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font:500 12.5px/1.4 var(--mono);color:var(--muted)}
+.meta dt{color:var(--ink)}
+.meta dd{margin:0}
+
+/* live demo */
+.stage{border:1px solid var(--line);border-radius:22px;background:var(--card);overflow:hidden}
+.stage-bar{display:flex;align-items:center;gap:14px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.lights{display:flex;gap:7px}.lights i{width:11px;height:11px;border-radius:50%;background:var(--line)}
+.stage-title{font-size:14px;color:var(--muted);margin-right:auto}
+.tag{font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(61,255,143,.3);border-radius:999px;padding:6px 10px}
+.screen{position:relative;min-height:330px;padding:34px 40px 120px;background:linear-gradient(var(--card),var(--card)) padding-box,repeating-linear-gradient(0deg,transparent 0 31px,rgba(255,255,255,.018) 31px 32px)}
+.doc{max-width:640px;font-size:20px;line-height:1.6;white-space:pre-wrap;margin:0}
+.doc .muted{color:var(--muted)}
+.doc mark{background:rgba(61,255,143,.16);color:inherit;border-radius:4px;transition:background-color 1.4s ease}
+.doc mark.settled{background:transparent}
+.caret{display:inline-block;width:2px;height:1.15em;background:var(--ink);vertical-align:-.2em;margin-left:1px;animation:blink 1.05s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.pill-dock{position:absolute;left:0;right:0;bottom:26px;display:flex;justify-content:center;pointer-events:none;padding:0 16px}
+.pill{display:flex;align-items:center;gap:14px;height:8px;width:72px;max-width:100%;border-radius:999px;background:rgba(61,255,143,.7);box-shadow:0 0 18px rgba(61,255,143,.35);overflow:hidden;transition:height .22s ease,width .22s ease,background-color .22s,box-shadow .22s,padding .22s}
+.pill .bars,.pill .words{opacity:0;transition:opacity .15s}
+.pill:not([data-state="idle"]){height:46px;width:auto;min-width:138px;padding:0 20px;background:var(--paper);box-shadow:none;outline:1px solid rgba(255,255,255,.1)}
+.pill:not([data-state="idle"]) .bars,.pill:not([data-state="idle"]) .words{opacity:1;transition-delay:.12s}
+.bars{display:flex;align-items:center;gap:5px;height:30px;flex:none}
+.bars i{width:6px;height:6px;border-radius:3px;background:var(--grad-v)}
+.pill[data-state="listening"] .bars i{animation:level .9s ease-in-out infinite}
+.pill[data-state="working"] .bars i{opacity:.5;animation:wave 1.1s ease-in-out infinite}
+.bars i:nth-child(1){animation-delay:-.45s}.bars i:nth-child(2){animation-delay:-.2s}.bars i:nth-child(3){animation-delay:-.7s}
+.bars i:nth-child(4){animation-delay:-.1s}.bars i:nth-child(5){animation-delay:-.55s}.bars i:nth-child(6){animation-delay:-.3s}
+.bars i:nth-child(7){animation-delay:-.8s}.bars i:nth-child(8){animation-delay:-.15s}.bars i:nth-child(9){animation-delay:-.6s}
+@keyframes level{0%,100%{height:6px}50%{height:26px}}
+@keyframes wave{0%,100%{height:6px}50%{height:13px}}
+.words{font-size:16px;color:var(--ink);white-space:nowrap;max-width:min(420px,58vw);overflow:hidden;display:flex;justify-content:flex-end;-webkit-mask-image:linear-gradient(90deg,transparent,#000 28px);mask-image:linear-gradient(90deg,transparent,#000 28px)}
+.words:empty{display:none}
+.stage-foot{display:grid;grid-template-columns:auto 1fr;gap:18px 28px;align-items:center;padding:18px 20px;border-top:1px solid var(--line);background:var(--paper)}
+.try{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:14px;flex-wrap:wrap}
+.hold{min-width:120px;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.hold[aria-pressed="true"]{background:var(--raise);border-color:var(--accent)}
+.readout{display:grid;grid-template-columns:62px 1fr;gap:6px 12px;font-size:14px;min-width:0}
+.readout .label{font-size:11px;padding-top:3px}
+.readout span:not(.label){min-width:0;overflow-wrap:anywhere}
+#heard{color:var(--muted)}
+#heard s{color:#5d6f65;text-decoration-color:var(--orange);text-decoration-thickness:1.5px}
+#typed{color:var(--ink)}
+
+/* sections */
+section{padding:104px 0 0}
+.head{display:grid;grid-template-columns:1fr 1fr;gap:16px 56px;align-items:end;margin-bottom:44px}
+.head .label{grid-column:1/-1}
+h2{font-weight:700;font-size:clamp(32px,4.8vw,52px);line-height:1.02;letter-spacing:-.035em}
+.lead{margin:0;color:var(--muted);font-size:18px;max-width:460px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.step{padding:28px 26px 30px;display:flex;flex-direction:column;gap:14px;background:var(--card)}
+.step+.step{border-left:1px solid var(--line)}
+.step .n{font:500 12px var(--mono);color:var(--accent)}
+.step h3{font-size:24px;font-weight:600;letter-spacing:-.02em}
+.step p{margin:0;color:var(--muted);font-size:16px}
+.keys{display:flex;flex-direction:column;gap:8px;margin-top:auto;padding-top:8px}
+.keys div{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
+
+/* cleanup ledger */
+.ledger{border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:1fr 28px 1fr 130px;gap:20px;align-items:center;padding:20px 4px;border-bottom:1px solid var(--line)}
+.row .said{color:var(--muted);font-size:17px}
+.row .said s{color:#5d6f65;text-decoration-color:var(--orange);text-decoration-thickness:1.5px}
+.row .arrow{color:var(--accent);font-family:var(--mono)}
+.row .got{font-family:var(--display);font-size:20px;font-weight:500;letter-spacing:-.01em;white-space:pre-line}
+.chips{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}
+.chip{font:500 11px/1 var(--mono);letter-spacing:.06em;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:6px 9px}
+.chip.on{color:var(--ink);border-color:#2f4137}
+
+/* spec sheet */
+.spec{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.spec>div{display:grid;grid-template-columns:44px 1fr;gap:4px 16px;padding:26px 28px 26px 0;border-bottom:1px solid var(--line)}
+.spec>div:nth-child(even){padding-left:28px;border-left:1px solid var(--line)}
+.ico{grid-row:span 3;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);display:grid;place-items:center}
+.ico svg{width:20px;height:20px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.spec h3{font-size:19px;font-weight:600;letter-spacing:-.01em}
+.spec p{margin:0;color:var(--muted);font-size:16px}
+.spec .chips{justify-content:flex-start;margin-top:8px}
+
+/* privacy */
+.quiet{display:grid;grid-template-columns:1.3fr 1fr;gap:40px 56px;align-items:center;border:1px solid var(--line);border-radius:24px;padding:48px;background:radial-gradient(600px 260px at 0% 0%,rgba(61,255,143,.07),transparent 70%),var(--card)}
+.quiet h2{font-size:clamp(30px,4.2vw,46px)}
+.quiet p{margin:16px 0 0;color:var(--muted)}
+.stats{display:grid;gap:0;border-top:1px solid var(--line)}
+.stats div{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.stats b{font:700 34px/1 var(--display);letter-spacing:-.03em}
+.stats span{color:var(--muted);font-size:15px;text-align:right}
+
+/* download */
+.band{background:var(--grad);border-radius:28px;padding:56px 48px;color:var(--on-accent)}
+.band h2{color:var(--on-accent);margin-bottom:10px}
+.band>p{margin:0 0 34px;font-size:19px;opacity:.82}
+.platforms{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.plat{background:var(--paper);color:var(--ink);border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:18px;outline:2px solid transparent;outline-offset:3px;transition:outline-color .2s}
+.plat.yours{outline-color:rgba(2,21,10,.55)}
+.plat-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.plat h3{font-size:24px;font-weight:600;letter-spacing:-.02em}
+.plat .yours-tag{display:none;font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.plat.yours .yours-tag{display:inline}
+.plat dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:14px}
+.plat dt{font:500 12px/1.6 var(--mono);color:var(--muted);letter-spacing:.04em}
+.plat dd{margin:0}
+.plat .first{margin:0;font-size:14px;color:var(--muted);border-top:1px dashed var(--line);padding-top:14px}
+.plat .btn{margin-top:auto;width:100%}
+
+/* faq */
+.faq{max-width:760px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;padding:20px 0;font-weight:600;font-size:18px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:after{content:"+";font:500 20px/1 var(--mono);color:var(--accent);transition:transform .2s}
+.faq details[open] summary:after{transform:rotate(45deg)}
+.faq p{color:var(--muted);margin:0 0 20px;max-width:640px}
+
+footer{margin-top:104px;border-top:1px solid var(--line);padding-block:28px calc(48px + env(safe-area-inset-bottom,0px));color:var(--muted);font-size:14px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+footer .made a{color:var(--ink);font-weight:600}
+footer .made a:hover{color:var(--accent)}
+footer nav{height:auto;gap:20px}
+footer nav a{color:var(--muted);text-decoration:none}
+footer nav a:hover{color:var(--ink)}
+
+/* responsive */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;padding-top:52px}
+  .head{grid-template-columns:1fr}
+  .quiet{grid-template-columns:1fr;padding:36px}
+  .row{grid-template-columns:1fr 24px 1fr}
+  .row .chips{grid-column:1/-1;justify-content:flex-start}
+}
+@media(max-width:768px){
+  nav{gap:10px}
+  .menu-btn{display:inline-flex}
+  .navlinks{display:none;position:absolute;top:68px;left:0;right:0;flex-direction:column;gap:0;background:var(--paper);border-bottom:1px solid var(--line);padding:8px max(24px,env(safe-area-inset-left,0px)) 16px}
+  .navlinks.open{display:flex}
+  .navlinks a{padding:14px 0;font-size:17px;border-bottom:1px solid var(--line)}
+  .navlinks a:last-child{border-bottom:0}
+  .navlinks a.active{text-decoration:none;color:var(--accent)}
+  .steps{grid-template-columns:1fr}
+  .step+.step{border-left:0;border-top:1px solid var(--line)}
+  .spec{grid-template-columns:1fr}
+  .spec>div,.spec>div:nth-child(even){padding:22px 0;border-left:0}
+  .platforms{grid-template-columns:1fr}
+  .band{padding:44px 24px}
+  .stage-foot{grid-template-columns:1fr}
+  section{padding-top:80px}
+}
+@media(max-width:480px){
+  .nav-cta{display:none}
+  .navlinks .nav-dl{display:block;color:var(--accent)}
+  body{font-size:16px}
+  .hero{padding:36px 0 32px}
+  .sub{font-size:17px}
+  .screen{padding:24px 20px 104px;min-height:300px}
+  .doc{font-size:17px}
+  .row{grid-template-columns:1fr;gap:6px}
+  .row .arrow{display:none}
+  .quiet{padding:28px 22px}
+  .band{border-radius:22px;padding:36px 16px}
+  .plat{padding:22px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<header id="top">
+  <nav class="wrap" aria-label="Main">
+    <a class="logo" href="#top"><span class="mark" aria-hidden="true"><i style="height:6px"></i><i style="height:11px"></i><i style="height:15px"></i><i style="height:11px"></i><i style="height:6px"></i></span>Murmur</a>
+    <div class="navlinks" id="navlinks"><a href="#how">How it works</a><a href="#features">Features</a><a href="#faq">FAQ</a><a class="nav-dl" href="#download">Download</a></div>
+    <a class="btn primary sm nav-cta" href="#download">Download</a>
+    <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navlinks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </nav>
+</header>
+
+<main>
+<div class="wrap">
+  <section class="hero" aria-labelledby="hero-title">
+    <span class="label">Offline dictation · Mac &amp; Windows · Free</span>
+    <h1 id="hero-title">Talk.<br><em>It types.</em></h1>
+    <div class="hero-side">
+      <p class="sub">Hold a key, speak, let go. <b>Clean, punctuated text</b> lands wherever your cursor is. No account, no cloud, and no internet needed.</p>
+      <div class="cta">
+        <a class="btn primary" data-os="mac" href="https://github.com/swaaaaaapnil/murmur/releases/latest/download/Murmur.dmg">
+          <svg class="os-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg><span><span class="long">Download for </span>Mac</span></a>
+        <a class="btn ghost" data-os="win" href="https://github.com/swaaaaaapnil/murmur/releases/latest/download/Murmur-Setup.exe">
+          <svg class="os-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M0 3.449 9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg><span><span class="long">Download for </span>Windows</span></a>
+      </div>
+      <dl class="meta">
+        <dt>Mac</dt><dd>macOS 14+ · Apple silicon · 3 MB</dd>
+        <dt>Windows</dt><dd>10 or 11 · 64-bit · 70 MB</dd>
+      </dl>
+    </div>
+  </section>
+
+  <div class="stage" id="demo">
+    <div class="stage-bar">
+      <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="stage-title">Notes — Launch update</span>
+      <span class="tag">Try it</span>
+    </div>
+    <div class="screen">
+      <p class="doc" id="doc" aria-live="polite"><span class="muted">Hi team,</span>
+<span id="docBody"></span><span class="caret" aria-hidden="true"></span></p>
+      <div class="pill-dock" aria-hidden="true">
+        <div class="pill" id="pill" data-state="idle">
+          <span class="bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+          <span class="words" id="words"></span>
+        </div>
+      </div>
+    </div>
+    <div class="stage-foot">
+      <div class="try">
+        <button class="btn ghost hold" id="hold" type="button" aria-pressed="false" aria-label="Hold to talk">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>Hold</button>
+        <span class="space-hint">or <kbd>Space</kbd></span>
+      </div>
+      <div class="readout" aria-live="polite">
+        <span class="label">Heard</span><span id="heard">Hold to hear a sample.</span>
+        <span class="label">Typed</span><span id="typed">—</span>
+      </div>
+    </div>
+  </div>
+
+  <section id="how" aria-labelledby="how-title">
+    <div class="head">
+      <span class="label">01 · How it works</span>
+      <h2 id="how-title">Three moves. No window to open.</h2>
+      <p class="lead">Murmur waits in the menu bar or tray, shown only as a thin green line at the bottom of your screen.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="n">HOLD</span>
+        <h3>Hold the key</h3>
+        <p>Double-tap it instead to keep listening hands-free, then tap once to finish.</p>
+        <div class="keys"><div>Mac <kbd>fn</kbd></div><div>Windows <kbd>Right Alt</kbd></div></div>
+      </div>
+      <div class="step">
+        <span class="n">SPEAK</span>
+        <h3>Say it naturally</h3>
+        <p>The line grows into a pill and its bars move with your voice. Ums, stutters and false starts are fine.</p>
+        <div class="keys"><div>Cancel any time <kbd>Esc</kbd></div></div>
+      </div>
+      <div class="step">
+        <span class="n">LET GO</span>
+        <h3>Text appears</h3>
+        <p>Cleaned up and inserted right where you were typing: email, docs, chat or code.</p>
+        <div class="keys"><div>Your clipboard <span>left as it was</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="clean-title">
+    <div class="head">
+      <span class="label">02 · Cleanup</span>
+      <h2 id="clean-title">It writes what you meant, not what you mumbled.</h2>
+      <p class="lead">Every dictation goes through a cleanup pass on your computer before it's typed.</p>
+    </div>
+    <div class="ledger">
+      <div class="row"><span class="said">“<s>um</s> so the launch is on track”</span><span class="arrow" aria-hidden="true">→</span><span class="got">So the launch is on track.</span><span class="chips"><span class="chip on">MAC</span><span class="chip on">WINDOWS</span></span></div>
+      <div class="row"><span class="said">“<s>I I</s> I think we're ready”</span><span class="arrow" aria-hidden="true">→</span><span class="got">I think we're ready.</span><span class="chips"><span class="chip on">MAC</span><span class="chip on">WINDOWS</span></span></div>
+      <div class="row"><span class="said">“first point <s>new line</s> second point”</span><span class="arrow" aria-hidden="true">→</span><span class="got">First point.
+Second point.</span><span class="chips"><span class="chip on">MAC</span><span class="chip on">WINDOWS</span></span></div>
+      <div class="row"><span class="said">“meet me at ten thirty pm on march fifth”</span><span class="arrow" aria-hidden="true">→</span><span class="got">Meet me at 10:30 PM on March 5</span><span class="chips"><span class="chip on">MAC</span></span></div>
+      <div class="row"><span class="said">“I paid twenty five percent on rupees five hundred”</span><span class="arrow" aria-hidden="true">→</span><span class="got">I paid 25% on ₹500</span><span class="chips"><span class="chip on">MAC</span></span></div>
+      <div class="row"><span class="said">“thanks <s>comma</s> see you soon”</span><span class="arrow" aria-hidden="true">→</span><span class="got">Thanks, see you soon</span><span class="chips"><span class="chip on">MAC</span></span></div>
+    </div>
+  </section>
+
+  <section id="features" aria-labelledby="feat-title">
+    <div class="head">
+      <span class="label">03 · Features</span>
+      <h2 id="feat-title">Small app. Does the whole job.</h2>
+      <p class="lead">The Mac version has been around longer and does more. Each row shows where a feature works today.</p>
+    </div>
+    <div class="spec">
+      <div><span class="ico"><svg viewBox="0 0 24 24"><path d="M2 12h3l3-7 4 14 3-9 2 2h5"/></svg></span><h3>Works offline</h3><p>Speech recognition runs on your own computer. It keeps working in airplane mode.</p><span class="chips"><span class="chip on">MAC</span><span class="chip on">WINDOWS</span></span></div>
+      <div><span class="ico"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h7"/><path d="M17 15l2 2 3-4"/></svg></span><h3>Types into any app</h3><p>Anywhere you can type, Murmur can type. There are no plugins or integrations to set up.</p><span class="chips"><span class="chip on">MAC</span><span class="chip on">WINDOWS</span></span></div>
+      <div><span class="ico"><svg viewBox="0 0 24 24"><path d="M7 4v16M17 4v16"/></svg></span><h3>Hands-free mode</h3><p>Double-tap the key for longer thoughts. The bars turn orange while it keeps listening.</p><span class="chips"><span class="chip on">MAC</span><span class="chip on">WINDOWS</span></span></div>
+      <div><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 00-3 11v3h6v-3a6 6 0 00-3-11zM10 21h4"/></svg></span><h3>Learns your words</h3><p>Correct a name once and Murmur remembers it. You can also add your own dictionary and text shortcuts.</p><span class="chips"><span class="chip on">MAC</span><span class="chip">WINDOWS · SOON</span></span></div>
+      <div><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span><h3>Voice commands</h3><p>Say “new tab”, “select all”, “scroll down” or “volume up” and it just happens.</p><span class="chips"><span class="chip on">MAC</span></span></div>
+      <div><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg></span><h3>Languages</h3><p>English and Hindi on the Mac, plus an optional offline pack with auto-detect. English on Windows.</p><span class="chips"><span class="chip on">MAC</span><span class="chip on">WINDOWS · EN</span></span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="quiet-title">
+    <div class="quiet">
+      <div>
+        <span class="label">04 · Privacy</span>
+        <h2 id="quiet-title" style="margin-top:14px">Your voice never leaves your computer.</h2>
+        <p>There's nothing to sign up for and nothing to send. The only download the app ever makes is the speech model, once. On Windows that happens the first time you open it.</p>
+      </div>
+      <div class="stats">
+        <div><b>0</b><span>servers</span></div>
+        <div><b>0</b><span>accounts</span></div>
+        <div><b>0</b><span>recordings kept</span></div>
+        <div><b>₹0</b><span>forever</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="download" aria-labelledby="dl-title">
+    <div class="band">
+      <h2 id="dl-title">Stop typing. Start talking.</h2>
+      <p>Free for Mac and Windows. Pick yours.</p>
+      <div class="platforms">
+        <article class="plat" data-plat="mac">
+          <div class="plat-top"><h3>Murmur for Mac</h3><span class="yours-tag">Yours</span></div>
+          <dl><dt>FILE</dt><dd>Murmur.dmg · 3 MB</dd><dt>NEEDS</dt><dd>macOS 14 or later, Apple silicon</dd><dt>KEY</dt><dd>fn, or choose your own</dd></dl>
+          <p class="first">First open: drag Murmur into Applications, right-click it and choose Open. Then allow Microphone and Accessibility when asked.</p>
+          <a class="btn primary" aria-label="Download for Mac" href="https://github.com/swaaaaaapnil/murmur/releases/latest/download/Murmur.dmg"><svg class="os-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>Download</a>
+        </article>
+        <article class="plat" data-plat="win">
+          <div class="plat-top"><h3>Murmur for Windows</h3><span class="yours-tag">Yours</span></div>
+          <dl><dt>FILE</dt><dd>Murmur-Setup.exe · 70 MB</dd><dt>NEEDS</dt><dd>Windows 10 or 11, 64-bit. No admin rights.</dd><dt>KEY</dt><dd>Right Alt, Right Ctrl or F8</dd></dl>
+          <p class="first">First open: if SmartScreen warns you, click More info → Run anyway. Murmur installs itself and then downloads its 190 MB speech model once.</p>
+          <a class="btn primary" aria-label="Download for Windows" href="https://github.com/swaaaaaapnil/murmur/releases/latest/download/Murmur-Setup.exe"><svg class="os-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M0 3.449 9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>Download</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq" id="faq" aria-labelledby="faq-title">
+    <div class="head" style="grid-template-columns:1fr"><span class="label">05 · FAQ</span><h2 id="faq-title">Questions</h2></div>
+    <details><summary>Is it really free?</summary><p>Yes. There's no subscription, no trial and no account. Download it and use it.</p></details>
+    <details><summary>Does it send my voice anywhere?</summary><p>No. Speech recognition happens on your computer. Murmur has no servers and doesn't collect anything.</p></details>
+    <details><summary>Does it need the internet?</summary><p>Only once, on Windows, to download the speech model (about 190 MB) the first time you open it. After that, both versions work fully offline.</p></details>
+    <details><summary>Windows says “Windows protected your PC”. What do I do?</summary><p>Murmur isn't code-signed yet, so SmartScreen warns about it. Click More info, then Run anyway.</p></details>
+    <details><summary>macOS says it can't verify the app. What do I do?</summary><p>Drag Murmur to Applications, then right-click it and choose Open the first time. After that it opens normally.</p></details>
+    <details><summary>How do I change the key?</summary><p>On the Mac, open Settings from the menu bar icon. If you use fn, set System Settings → Keyboard → “Press 🌐 key to” → Do Nothing. On Windows, right-click the tray icon and choose Push-to-talk key.</p></details>
+    <details><summary>How do I uninstall it on Windows?</summary><p>Right-click the tray icon and choose Uninstall Murmur, or remove it from Settings → Apps → Installed apps. It also deletes the speech model.</p></details>
+  </section>
+</div>
+</main>
+
+<footer class="wrap">
+  <span class="made">© Murmur · Made by <a href="https://github.com/swaaaaaapnil" target="_blank" rel="noopener">Swapnil</a></span>
+  <nav aria-label="Footer"><a href="#how">How it works</a><a href="#features">Features</a><a href="#download">Download</a><a href="#faq">FAQ</a></nav>
+</footer>
+
+<script>
+(() => {
+  // Make the visitor's own platform the primary download.
+  const isWin = /Windows/i.test(navigator.userAgent);
+  const isMac = /Macintosh|Mac OS X/i.test(navigator.userAgent) && !/iPhone|iPad/i.test(navigator.userAgent);
+  if (isWin) {
+    document.querySelector('[data-os="win"]').classList.replace('ghost', 'primary');
+    document.querySelector('[data-os="mac"]').classList.replace('primary', 'ghost');
+  }
+  if (isWin || isMac) document.querySelector(`[data-plat="${isWin ? 'win' : 'mac'}"]`).classList.add('yours');
+
+  const header = document.querySelector('header');
+  const onScroll = () => header.classList.toggle('scrolled', scrollY > 8);
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  // In-page links: smooth scroll that clears the sticky header, works everywhere.
+  const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const links = document.getElementById('navlinks'), menuBtn = document.querySelector('.menu-btn');
+  const setMenu = open => { links.classList.toggle('open', open); menuBtn.setAttribute('aria-expanded', open); menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); };
+  menuBtn.addEventListener('click', () => setMenu(!links.classList.contains('open')));
+  addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+  document.addEventListener('click', e => {
+    if (links.classList.contains('open') && !e.target.closest('nav')) setMenu(false);
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute('href').slice(1);
+    const el = id === 'top' || !id ? document.body : document.getElementById(id);
+    if (!el) return;
+    e.preventDefault(); setMenu(false);
+    const y = el === document.body ? 0 : el.getBoundingClientRect().top + scrollY - header.offsetHeight - 16;
+    scrollTo({ top: Math.max(0, y), behavior: smooth ? 'smooth' : 'auto' });
+    try { history.pushState(null, '', id && id !== 'top' ? '#' + id : location.pathname); } catch {}
+    if (el !== document.body) { el.setAttribute('tabindex', '-1'); el.focus({ preventScroll: true }); }
+  });
+
+  // Highlight the nav link for the section on screen.
+  const navMap = new Map([...links.querySelectorAll('a')].map(a => [a.getAttribute('href').slice(1), a]));
+  const spy = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) navMap.forEach((a, id) => a.classList.toggle('active', id === en.target.id)); });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  ['how', 'features', 'download', 'faq'].forEach(id => { const el = document.getElementById(id); if (el) spy.observe(el); });
+  addEventListener('scroll', () => { if (scrollY < innerHeight * .5) navMap.forEach(a => a.classList.remove('active')); }, { passive: true });
+
+  // ---- Live demo: simulates what Murmur hears and what it types. ----
+  // Words starting with "~" are what the cleanup pass removes.
+  const samples = [
+    { heard: '~um so the launch is on track for march fifth', typed: 'So the launch is on track for March 5.' },
+    { heard: 'we hit twenty five percent of the ~uh target already', typed: 'We hit 25% of the target already.' },
+    { heard: '~I ~I I think we can ship early ~new ~line thanks', typed: 'I think we can ship early.\nThanks!' },
+  ];
+  const pill = document.getElementById('pill'), words = document.getElementById('words');
+  const heard = document.getElementById('heard'), typed = document.getElementById('typed');
+  const body = document.getElementById('docBody'), hold = document.getElementById('hold');
+  const demo = document.getElementById('demo');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let state = 'idle', idx = 0, shown = 0, timer = null, sample = null, used = 0, touched = false, inView = false;
+
+  const esc = s => s.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]);
+  const tokens = s => s.split(' ').map(w => ({ w: w.replace(/^~/, ''), drop: w.startsWith('~') }));
+  const heardHTML = (list) => list.map(t => t.drop ? `<s>${esc(t.w)}</s>` : esc(t.w)).join(' ');
+
+  function setState(s) { state = s; pill.dataset.state = s; hold.setAttribute('aria-pressed', s === 'listening'); }
+
+  function start() {
+    if (state !== 'idle') return;
+    sample = samples[idx % samples.length]; idx++;
+    const list = tokens(sample.heard);
+    shown = 0; words.textContent = ''; heard.innerHTML = '&nbsp;'; typed.textContent = '…';
+    setState('listening');
+    const step = () => {
+      if (shown >= list.length) return;
+      shown++;
+      words.textContent = list.slice(0, shown).map(t => t.w).join(' ');
+      heard.innerHTML = heardHTML(list.slice(0, shown));
+      timer = setTimeout(step, 190);
+    };
+    timer = setTimeout(step, 260);
+  }
+
+  function stop() {
+    if (state !== 'listening') return;
+    clearTimeout(timer);
+    if (shown < 2) { cancel('Too short. Hold longer.'); return; }
+    heard.innerHTML = heardHTML(tokens(sample.heard));
+    setState('working');
+    setTimeout(() => {
+      if (used >= samples.length) { body.textContent = ''; used = 0; }
+      const m = document.createElement('mark');
+      m.textContent = (used ? ' ' : '') + sample.typed;
+      body.appendChild(m); used++;
+      typed.textContent = sample.typed.replace('\n', ' ↵ ');
+      words.textContent = ''; setState('idle');
+      setTimeout(() => m.classList.add('settled'), 60);
+    }, reduce ? 0 : 420);
+  }
+
+  function cancel(msg) {
+    clearTimeout(timer); words.textContent = ''; setState('idle');
+    if (msg) { heard.textContent = msg; typed.textContent = '—'; }
+  }
+
+  // Pointer (works for mouse and touch).
+  hold.addEventListener('pointerdown', e => { e.preventDefault(); touched = true; hold.setPointerCapture(e.pointerId); start(); });
+  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(t => hold.addEventListener(t, stop));
+  hold.addEventListener('contextmenu', e => e.preventDefault());
+  // Keyboard: Space while the demo is on screen; Enter/Space on the focused button.
+  const typingTarget = el => el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
+  addEventListener('keydown', e => {
+    if (e.key === 'Escape' && state === 'listening') { cancel('Cancelled. Nothing was typed.'); return; }
+    if (e.code !== 'Space' || typingTarget(e.target)) return;
+    if (!inView && e.target !== hold) return;
+    e.preventDefault(); touched = true;
+    if (!e.repeat) start();
+  });
+  addEventListener('keyup', e => { if (e.code === 'Space' && state === 'listening') { e.preventDefault(); stop(); } });
+
+  // Play one sample on its own the first time the demo scrolls into view.
+  new IntersectionObserver(([en]) => {
+    inView = en.isIntersecting && en.intersectionRatio >= .5;
+    if (inView && !touched && idx === 0) {
+      touched = true;
+      if (reduce) { start(); shown = 99; stop(); return; }
+      setTimeout(() => { start(); setTimeout(stop, 190 * tokens(samples[0].heard).length + 700); }, 700);
+    }
+  }, { threshold: [0, .5, 1] }).observe(demo);
+
+  if (matchMedia('(hover: none)').matches) document.querySelector('.space-hint').hidden = true;
+})();
+</script>
+</body>
+</html>

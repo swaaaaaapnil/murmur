@@ -1,0 +1,15 @@
+# Installers ship through GitHub Releases, never git
+*.dmg
+*.exe
+*.zip
+
+# Vercel / local
+.vercel
+.env
+.env.*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.log
