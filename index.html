@@ -227,8 +227,8 @@ h2{font-weight:700;font-size:clamp(32px,4.8vw,52px);line-height:1.02;letter-spac
 /* 1: dmg */
 .dmg{display:flex;align-items:center;justify-content:space-around;gap:12px;padding:30px 18px 26px}
 .dmg figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12.5px}
-.appico{width:62px;height:62px;border-radius:15px;background:#000;border:1px solid #2a2a2a;display:flex;align-items:center;justify-content:center;gap:3px}
-.appico i{width:4px;border-radius:2px;background:var(--grad-v)}
+.appico{width:62px;height:62px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+.appico svg{display:block;width:100%;height:100%}
 .folder{width:66px;height:52px;border-radius:6px 6px 8px 8px;background:linear-gradient(#5fb8ff,#2e8ef0);position:relative;display:grid;place-items:center;color:#d8eeff;font:700 22px/1 -apple-system,system-ui,sans-serif;margin-top:8px}
 .folder:before{content:"";position:absolute;left:0;top:-7px;width:26px;height:10px;border-radius:5px 5px 0 0;background:#5fb8ff}
 .dmg .arrow{flex:1;max-width:110px;height:2px;background:repeating-linear-gradient(90deg,var(--accent) 0 8px,transparent 8px 14px);position:relative;animation:dash 1s linear infinite}
@@ -236,7 +236,7 @@ h2{font-weight:700;font-size:clamp(32px,4.8vw,52px);line-height:1.02;letter-spac
 @keyframes dash{to{background-position:14px 0}}
 /* dialogs */
 .dlg{width:100%;max-width:290px;background:var(--mac-win);border:1px solid var(--mac-edge);border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.5);padding:20px 18px 16px;text-align:center;font:13px/1.4 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;color:var(--mac-ink)}
-.dlg .appico{width:52px;height:52px;margin:0 auto 12px;border-radius:13px}
+.dlg .appico{width:52px;height:52px;margin:0 auto 12px}
 .dlg h4{margin:0 0 6px;font-size:14px;font-weight:700}
 .dlg p{margin:0 0 14px;color:var(--mac-dim);font-size:12px}
 .dlg .btns{display:flex;flex-direction:column;gap:7px}
@@ -315,8 +315,7 @@ h2{font-weight:700;font-size:clamp(32px,4.8vw,52px);line-height:1.02;letter-spac
 .sspair{display:flex;align-items:center;gap:18px;width:100%;max-width:760px;justify-content:center}
 .sspair .to{color:var(--accent);font:600 22px/1 var(--mono);flex:none}
 .toast{width:100%;max-width:340px;background:var(--w-card);border:1px solid var(--w-edge);border-radius:8px;padding:12px 14px;font:13px/1.4 "Segoe UI",system-ui,sans-serif;color:var(--w-ink);box-shadow:0 18px 50px rgba(0,0,0,.5);display:flex;gap:12px}
-.toast .appico{width:38px;height:38px;border-radius:9px;gap:2px;flex:none}
-.toast .appico i{width:3px}
+.toast .appico{width:38px;height:38px;flex:none}
 .toast small{display:block;color:var(--w-dim);font-size:11px;margin-bottom:2px}
 .toast p{margin:2px 0 0;color:var(--w-dim);font-size:12px}
 .taskbar{width:100%;max-width:340px;margin-top:14px;background:#1c1c1c;border:1px solid var(--w-edge);border-radius:8px;padding:7px 12px;display:flex;align-items:center;justify-content:flex-end;gap:12px;font:12px/1 "Segoe UI",system-ui,sans-serif;color:var(--w-dim)}
@@ -396,6 +395,7 @@ footer nav a:hover{color:var(--ink)}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="mi-sq" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#161616"/><stop offset="1" stop-color="#000"/></linearGradient><linearGradient id="mi-sh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".06"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><linearGradient id="mi-cap" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1e1e20"/><stop offset="1" stop-color="#0a0a0a"/></linearGradient><linearGradient id="mi-bar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3dff8f"/><stop offset="1" stop-color="#1fc46b"/></linearGradient><filter id="mi-cs" x="-20%" y="-40%" width="140%" height="200%"><feDropShadow dx="0" dy="2.2" stdDeviation="2.2" flood-color="#000" flood-opacity=".6"/></filter><symbol id="murmur-icon" viewBox="0 0 100 100"><rect width="100" height="100" rx="22.5" fill="url(#mi-sq)"/><path d="M0 22.5A22.5 22.5 0 0 1 22.5 0h55A22.5 22.5 0 0 1 100 22.5V50H0z" fill="url(#mi-sh)"/><rect x=".4" y=".4" width="99.2" height="99.2" rx="22.1" fill="none" stroke="#fff" stroke-opacity=".08" stroke-width=".8"/><rect x="17" y="37" width="66" height="26" rx="13" fill="url(#mi-cap)" stroke="#fff" stroke-opacity=".16" stroke-width=".6" filter="url(#mi-cs)"/><g fill="url(#mi-bar)"><rect x="28.62" y="47.74" width="3.17" height="4.51" rx="1.58"/><rect x="35.22" y="45.97" width="3.17" height="8.06" rx="1.58"/><rect x="41.82" y="43.71" width="3.17" height="12.57" rx="1.58"/><rect x="48.42" y="41.94" width="3.17" height="16.12" rx="1.58"/><rect x="55.02" y="43.71" width="3.17" height="12.57" rx="1.58"/><rect x="61.62" y="45.97" width="3.17" height="8.06" rx="1.58"/><rect x="68.22" y="47.74" width="3.17" height="4.51" rx="1.58"/></g></symbol></defs></svg>
 <header id="top">
   <nav class="wrap" aria-label="Main">
     <a class="logo" href="#top"><span class="mark" aria-hidden="true"><i style="height:6px"></i><i style="height:11px"></i><i style="height:15px"></i><i style="height:11px"></i><i style="height:6px"></i></span>Murmur</a>
@@ -570,7 +570,7 @@ Second point.</span><span class="chips"><span class="chip on">MAC</span><span cl
       <article class="gstep">
         <div class="gshot" aria-hidden="true">
           <div class="mw"><div class="mw-bar"><i></i><i></i><i></i><span>Murmur</span></div>
-            <div class="dmg"><figure><div class="appico" aria-hidden="true"><i style="height:12px"></i><i style="height:24px"></i><i style="height:34px"></i><i style="height:20px"></i><i style="height:28px"></i><i style="height:14px"></i></div>Murmur</figure><span class="arrow"></span><figure><div class="folder">A</div>Applications</figure></div>
+            <div class="dmg"><figure><div class="appico" aria-hidden="true"><svg><use href="#murmur-icon"/></svg></div>Murmur</figure><span class="arrow"></span><figure><div class="folder">A</div>Applications</figure></div>
           </div>
         </div>
         <div class="gcap"><span class="n">1</span><h3>Drag Murmur into Applications</h3><p>Open <b>Murmur.dmg</b> from your Downloads. In the window that appears, drag the Murmur icon onto the <b>Applications</b> folder.</p></div>
@@ -578,7 +578,7 @@ Second point.</span><span class="chips"><span class="chip on">MAC</span><span cl
 
       <article class="gstep">
         <div class="gshot" aria-hidden="true">
-          <div class="dlg"><div class="appico" aria-hidden="true"><i style="height:12px"></i><i style="height:24px"></i><i style="height:34px"></i><i style="height:20px"></i><i style="height:28px"></i><i style="height:14px"></i></div><h4>“Murmur” Not Opened</h4><p>Apple could not verify “Murmur” is free of malware that may harm your Mac or compromise your privacy.</p>
+          <div class="dlg"><div class="appico" aria-hidden="true"><svg><use href="#murmur-icon"/></svg></div><h4>“Murmur” Not Opened</h4><p>Apple could not verify “Murmur” is free of malware that may harm your Mac or compromise your privacy.</p>
             <div class="btns"><span class="mbtn blue hot">Done</span><span class="mbtn no">Move to Trash</span></div></div>
         </div>
         <div class="gcap"><span class="n">2</span><h3>Open it, then click Done</h3><p>Open Applications (<kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>A</kbd> in Finder) and double-click Murmur. macOS blocks it the first time. Click <b>Done</b>, not Move to Trash.</p></div>
@@ -614,7 +614,7 @@ Second point.</span><span class="chips"><span class="chip on">MAC</span><span cl
 
       <article class="gstep">
         <div class="gshot" aria-hidden="true">
-          <div class="dlg"><div class="appico" aria-hidden="true"><i style="height:12px"></i><i style="height:24px"></i><i style="height:34px"></i><i style="height:20px"></i><i style="height:28px"></i><i style="height:14px"></i></div><h4>Open “Murmur”?</h4><p>Apple could not verify “Murmur” is free of malware. Open it only if you trust where it came from.</p>
+          <div class="dlg"><div class="appico" aria-hidden="true"><svg><use href="#murmur-icon"/></svg></div><h4>Open “Murmur”?</h4><p>Apple could not verify “Murmur” is free of malware. Open it only if you trust where it came from.</p>
             <div class="btns"><span class="mbtn blue hot">Open Anyway</span><span class="mbtn no">Move to Trash</span></div></div>
         </div>
         <div class="gcap"><span class="n">4</span><h3>Confirm with your password</h3><p>Enter your Mac password or use Touch ID, then click <b>Open Anyway</b> once more. You only do this once; after that Murmur opens normally.</p></div>
@@ -676,7 +676,7 @@ Second point.</span><span class="chips"><span class="chip on">MAC</span><span cl
       <article class="gstep">
         <div class="gshot" aria-hidden="true">
           <div class="gstack">
-            <div class="toast"><div class="appico" aria-hidden="true"><i style="height:9px"></i><i style="height:18px"></i><i style="height:26px"></i><i style="height:15px"></i><i style="height:21px"></i><i style="height:11px"></i></div><div><small>Murmur</small><b>Murmur is installed</b><p>Getting the speech model ready (about 190 MB, one time only).</p></div></div>
+            <div class="toast"><div class="appico" aria-hidden="true"><svg><use href="#murmur-icon"/></svg></div><div><small>Murmur</small><b>Murmur is installed</b><p>Getting the speech model ready (about 190 MB, one time only).</p></div></div>
             <div class="taskbar"><span>^</span><span class="hot" style="border-radius:5px"><div class="trayic"><i style="height:5px"></i><i style="height:10px"></i><i style="height:14px"></i><i style="height:8px"></i><i style="height:11px"></i></div></span><span>ENG</span><span>10:42</span></div>
           </div>
         </div>
